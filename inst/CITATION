@@ -1,0 +1,29 @@
+bibentry(
+  bibtype  = "Unpublished",
+  title    = "Living synthetic benchmarks: A neutral and cumulative framework for simulation studies",
+  author   = "Franti\\v{s}ek Barto\\v{s} and Samuel Pawel and Bj\\\"orn S. Siepe",
+  year     = "2025",
+  doi      = "10.48550/arXiv.2510.19489",
+  note     = "Working paper",
+  textVersion = paste(
+    "Bartoš, F., Pawel, S., & Siepe, B. S. (2025).",
+    "Living synthetic benchmarks: A neutral and cumulative framework for simulation studies.",
+    "arXiv Preprint. https://doi.org/10.48550/arXiv.2510.19489"
+  ),
+  header   = "To cite PublicationBiasBenchmark in publications use:\n\nFor the methodology of living synthetic benchmarks please cite:"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "PublicationBiasBenchmark: Benchmark for publication bias correction methods",
+  author   = "Franti\\v{s}ek Barto\\v{s} and Samuel Pawel and Bj\\\"orn S. Siepe",
+  year     = sub("-.*", "", meta$Date),
+  note     = sprintf("version %s", meta$Version),
+  url      = "https://github.com/FBartos/PublicationBiasBenchmark",
+  textVersion = paste(
+    "Bartoš, F., Pawel, S., & Siepe, B. S. (2025).",
+    sprintf("PublicationBiasBenchmark: Benchmark for publication bias correction methods (version %s).", meta$Version),
+    "https://github.com/FBartos/PublicationBiasBenchmark"
+  ),
+  header   = "For the publication bias benchmark R package please cite:"
+)

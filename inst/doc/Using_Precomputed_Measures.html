@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Using Precomputed Measures</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using Precomputed Measures</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(PublicationBiasBenchmark)</span></code></pre></div>
+<p>This vignette explains how to access and use the precomputed
+performance measures from the <code>PublicationBiasBenchmark</code>
+package. The package provides comprehensive benchmark results for
+various publication bias correction methods across different
+data-generating mechanisms (DGMs), allowing researchers to evaluate and
+compare method performance without running computationally intensive
+simulations themselves.</p>
+<p>For the sake of not re-downloading the performance measures every
+time you re-knit this vignette, we disable evaluation of code chunks
+below. (To examine the output, please copy to your local R session.)</p>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>The package provides precomputed performance measures for multiple
+publication bias correction methods evaluated under different simulation
+conditions. These measures include:</p>
+<ul>
+<li><strong>Bias</strong>: Average difference between estimates and true
+effect sizes</li>
+<li><strong>Relative Bias</strong>: Bias expressed as a proportion of
+the true effect size</li>
+<li><strong>MSE</strong> (Mean Square Error): Average squared difference
+between estimates and true values</li>
+<li><strong>RMSE</strong> (Root Mean Square Error): Square root of MSE,
+measuring overall estimation accuracy</li>
+<li><strong>Empirical Variance</strong>: Variability of estimates across
+repetitions</li>
+<li><strong>Empirical SE</strong>: Standard deviation of estimates
+across repetitions</li>
+<li><strong>Coverage</strong>: Proportion of confidence intervals
+containing the true effect</li>
+<li><strong>Mean CI Width</strong>: Average width of confidence
+intervals</li>
+<li><strong>Interval Score</strong>: Proper scoring rule for
+probabilistic interval forecasts, here adapted to evaluate CI
+quality</li>
+<li><strong>Power</strong>: Proportion of significant results (in
+conditions when the null hypothesis is true this corresponds the Type I
+error rate)</li>
+<li><strong>Positive Likelihood Ratio</strong>: Indication of how much a
+significant test result changes the odds of H1 versus H0</li>
+<li><strong>Negative Likelihood Ratio</strong>: Indication of how much a
+non-significant test result changes the odds of H1 versus H0</li>
+<li><strong>Convergence</strong>: Proportion of successful method
+convergence</li>
+</ul>
+<p>The precomputed results are organized by data-generating mechanism
+(DGM), with each DGM representing different patterns of publication bias
+and meta-analytic conditions.</p>
+</div>
+<div id="available-data-generating-mechanisms" class="section level2">
+<h2>Available Data-Generating Mechanisms</h2>
+<p>The package includes precomputed measures for several DGMs. You can
+view the specific conditions for each DGM using the <a href="../reference/dgm_conditions.html"><code>dgm_conditions()</code></a>
+function:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># View conditions for the Stanley2017 DGM</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> <span class="fu">dgm_conditions</span>(<span class="st">&quot;Stanley2017&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">head</span>(conditions)</span></code></pre></div>
+</div>
+<div id="downloading-precomputed-measures" class="section level2">
+<h2>Downloading Precomputed Measures</h2>
+<p>Before accessing the precomputed measures, you need to download them
+from the package repository. The <a href="../reference/download_dgm.html"><code>download_dgm_measures()</code></a>
+function downloads the measures for a specified DGM:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Download precomputed measures for the Stanley2017 DGM</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">download_dgm_measures</span>(<span class="st">&quot;Stanley2017&quot;</span>)</span></code></pre></div>
+<p>The measures are downloaded to a local cache directory and are
+automatically available for subsequent analysis. You only need to
+download them once, unless the benchmark measures were updated with a
+new method (in that case, you need to specify
+<code>overwrite = TRUE</code> argument).</p>
+</div>
+<div id="retrieving-precomputed-measures" class="section level2">
+<h2>Retrieving Precomputed Measures</h2>
+<p>Once downloaded, you can retrieve the precomputed measures using the
+<a href="../reference/retrieve_dgm_measures.html"><code>retrieve_dgm_measures()</code></a>
+function. This function offers flexible filtering options to extract
+exactly the data you need.</p>
+<div id="retrieving-specific-measures" class="section level3">
+<h3>Retrieving Specific Measures</h3>
+<p>You can retrieve measures for a specific method and condition:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Retrieve bias measures for RMA method in condition 1</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">retrieve_dgm_measures</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">dgm            =</span> <span class="st">&quot;Stanley2017&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">measure        =</span> <span class="st">&quot;bias&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">method         =</span> <span class="st">&quot;RMA&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">method_setting =</span> <span class="st">&quot;default&quot;</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">condition_id   =</span> <span class="dv">1</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>)   </span></code></pre></div>
+<p>The <code>measure</code> argument can be any of measure function
+names listed in the <a href="../reference/measures.html"><code>measures()</code></a>
+documentation.</p>
+</div>
+<div id="retrieving-all-measures" class="section level3">
+<h3>Retrieving All Measures</h3>
+<p>To retrieve all measures across all conditions and methods, simply
+omit the filtering arguments:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Retrieve all measures across all conditions and methods</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">retrieve_dgm_measures</span>(<span class="st">&quot;Stanley2017&quot;</span>)</span></code></pre></div>
+<p>This returns a comprehensive data frame with columns:</p>
+<ul>
+<li><code>method</code>: Publication bias correction method name</li>
+<li><code>method_setting</code>: Specific method configuration</li>
+<li><code>condition_id</code>: Simulation condition identifier</li>
+<li><code>bias</code>, <code>bias_mcse</code>, <code>rmse</code>,
+<code>rmse_mcse</code>, …: Performance measures and their Monte Carlo
+standard errors</li>
+</ul>
+</div>
+<div id="filtering-by-method-or-setting" class="section level3">
+<h3>Filtering by Method or Setting</h3>
+<p>You can also filter by method name:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Retrieve all measures for PET-PEESE method</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>pet_peese_results <span class="ot">&lt;-</span> <span class="fu">retrieve_dgm_measures</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">dgm    =</span> <span class="st">&quot;Stanley2017&quot;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;PETPEESE&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div id="visualizing-precomputed-results" class="section level2">
+<h2>Visualizing Precomputed Results</h2>
+<p>Once you have retrieved the measures, you can create visualizations
+to compare method performance. Here’s an example that creates a
+multi-panel plot comparing all methods across all conditions:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Retrieve all measures across all conditions and methods</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">retrieve_dgm_measures</span>(<span class="st">&quot;Stanley2017&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Retrieve conditions to identify null vs. alternative hypotheses</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> <span class="fu">dgm_conditions</span>(<span class="st">&quot;Stanley2017&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># Create readable method labels</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>df<span class="sc">$</span>label <span class="ot">&lt;-</span> <span class="fu">with</span>(df, <span class="fu">paste0</span>(method, <span class="st">&quot; (&quot;</span>, method_setting, <span class="st">&quot;)&quot;</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># Identify conditions under null hypothesis (H₀: mean effect = 0)</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>df<span class="sc">$</span>H0 <span class="ot">&lt;-</span> df<span class="sc">$</span>condition_id <span class="sc">%in%</span> conditions<span class="sc">$</span>condition_id[conditions<span class="sc">$</span>mean_effect <span class="sc">==</span> <span class="dv">0</span>]</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co"># Create multi-panel visualization</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># Panel 1: Convergence rates</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="fu">boxplot</span>(convergence <span class="sc">*</span> <span class="dv">100</span> <span class="sc">~</span> label, </span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, </span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">100</span>), </span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>        <span class="at">data =</span> df, </span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Convergence (%)&quot;</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co"># Panel 2: RMSE</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="fu">boxplot</span>(rmse <span class="sc">~</span> label, </span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, </span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>), </span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>        <span class="at">data =</span> df, </span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;RMSE&quot;</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co"># Panel 3: Bias</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="fu">boxplot</span>(bias <span class="sc">~</span> label, </span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, </span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.25</span>, <span class="fl">0.25</span>), </span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a>        <span class="at">data =</span> df, </span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Bias&quot;</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">3</span>)  <span class="co"># Reference line at zero</span></span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="co"># Panel 4: Coverage</span></span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="fu">boxplot</span>(coverage <span class="sc">*</span> <span class="dv">100</span> <span class="sc">~</span> label, </span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, </span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">100</span>), </span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a>        <span class="at">data =</span> df, </span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;95% CI Coverage (%)&quot;</span>)</span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">95</span>, <span class="at">lty =</span> <span class="dv">3</span>)  <span class="co"># Reference line at nominal level</span></span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co"># Panel 5: Type I Error Rate (H₀ conditions only)</span></span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a><span class="fu">boxplot</span>(power <span class="sc">*</span> <span class="dv">100</span> <span class="sc">~</span> label, </span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, </span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>), </span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a>        <span class="at">data =</span> df[df<span class="sc">$</span>H0, ], </span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Type I Error Rate (%)&quot;</span>)</span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">5</span>, <span class="at">lty =</span> <span class="dv">3</span>)  <span class="co"># Reference line at α = 0.05</span></span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a></span>
+<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a><span class="co"># Panel 6: Power (H₁ conditions only)</span></span>
+<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="fu">boxplot</span>(power <span class="sc">*</span> <span class="dv">100</span> <span class="sc">~</span> label, </span>
+<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, </span>
+<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">100</span>), </span>
+<span id="cb7-71"><a href="#cb7-71" tabindex="-1"></a>        <span class="at">data =</span> df[<span class="sc">!</span>df<span class="sc">$</span>H0, ], </span>
+<span id="cb7-72"><a href="#cb7-72" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Power (%)&quot;</span>)</span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
