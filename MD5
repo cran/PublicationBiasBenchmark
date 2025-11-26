@@ -1,13 +1,13 @@
-ce08552a9ddd33d7112ec542919e35ca *DESCRIPTION
+5f8a08c460da96333dca3f35f0baeb5d *DESCRIPTION
 cdd99eb2cc97dc4f021b91f9655a2b94 *NAMESPACE
-6aec07b88454cd2c5b8260e3fed5d478 *NEWS.md
+7910996994c3351b8a2ea82539dc32db *NEWS.md
 7009ad4f29f22831fa80975b9e315f4f *R/dgm-Alinaghi2018.R
 0e7641ad081ee1184ff177830e600c7b *R/dgm-Bom2019.R
 c3637ac74e50f461bd4b5a7eeb79c0ff *R/dgm-Carter2019.R
 fdd9abf788958483e8aa0ddd24c0c2b3 *R/dgm-Stanley2017.R
 cfcd9b8eca50c4693fae34d32c862cbe *R/dgm-no_bias.R
 23aea3f11c834c7b6665a59c5e332f22 *R/dgm.R
-0736aa4dd25e2f25f3337a8da555cb3b *R/download.R
+fc1156ef1451ab19f04f60ab5e6599fb *R/download.R
 9bc6173fc46d18b2178ae3f45f6d52bb *R/measures.R
 dc6f2656c251a70538cac4a629c4de42 *R/measures_compute.R
 080ecf17911bd0b8eb7d21df62292a64 *R/measures_pairwise.R
@@ -32,7 +32,7 @@ a8d9695d4bae459ba2e0622fcad763ac *R/tools.R
 2e9cc4b72096643bc51841d804eff242 *R/upload.R
 6ab4351a4452a37f483099d79aa3c82a *R/utilities.R
 7ab94842eaa4307a46bb1092d99a75dd *README.md
-fbdfe23c0b65169de028ad944a4c50ef *build/partial.rdb
+0e7cbbdcc952048f65f78ae0d1fd76e8 *build/partial.rdb
 a68d85ff1e5c7f7da0d66284f702453b *build/vignette.rds
 c2fe8b4506f76768f79a46ae72772f57 *inst/CITATION
 846a31ff2a95e730fbed9bbd50b49ad5 *inst/REFERENCES.bib
@@ -52,9 +52,9 @@ fad56c26b6fd2f6b526f33f2a4b77553 *inst/doc/Computing_Method_Measures.html
 69ff360b692f75a572472f7a253db53d *inst/doc/Using_Precomputed_Measures.R
 d7148a9b300e7fa72c03a83fbb7724d0 *inst/doc/Using_Precomputed_Measures.Rmd
 8f96193f03c00e72d93af4610c0cdef0 *inst/doc/Using_Precomputed_Measures.html
-4d03686bcc578d4d3d5d624c4e5fe85c *inst/doc/Using_Precomputed_Results.R
-61f006bb24c807d6585efcde551b89b6 *inst/doc/Using_Precomputed_Results.Rmd
-b61d7986b9f18aa17d997d9a8792eda0 *inst/doc/Using_Precomputed_Results.html
+47b556c2682c154e8554263a45e61683 *inst/doc/Using_Precomputed_Results.R
+d9f31d27434e79e782a5e8a74cc0e794 *inst/doc/Using_Precomputed_Results.Rmd
+a73c45fa93f593568d0be3943a8cb3c4 *inst/doc/Using_Precomputed_Results.html
 ad043f3a8a9b8af423dbc34d5ec24ac9 *inst/doc/Using_Presimulated_Datasets.R
 4fa5b1bf3c8842781942ac744e878d08 *inst/doc/Using_Presimulated_Datasets.Rmd
 8a6992094c34955cb5d57b05e754f030 *inst/doc/Using_Presimulated_Datasets.html
@@ -115,6 +115,6 @@ d0cb4636dd4a1831157f633183dd3f37 *tests/testthat/test-methods.R
 a88c666779fa1b2964933b0ea2b6332e *vignettes/Computing_Method_Measures.Rmd
 0552cf4e1126d428636e00619624578a *vignettes/Computing_Method_Results.Rmd
 d7148a9b300e7fa72c03a83fbb7724d0 *vignettes/Using_Precomputed_Measures.Rmd
-61f006bb24c807d6585efcde551b89b6 *vignettes/Using_Precomputed_Results.Rmd
+d9f31d27434e79e782a5e8a74cc0e794 *vignettes/Using_Precomputed_Results.Rmd
 4fa5b1bf3c8842781942ac744e878d08 *vignettes/Using_Presimulated_Datasets.Rmd
 4403e3cd7b0706ad30d841265eba67c3 *vignettes/_functions.R

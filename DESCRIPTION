@@ -1,7 +1,7 @@
 Package: PublicationBiasBenchmark
 Type: Package
 Title: Benchmark for Publication Bias Correction Methods
-Version: 0.1.1
+Version: 0.1.2
 Maintainer: František Bartoš <f.bartos96@gmail.com>
 Authors@R: c(
     person(given = "František",
@@ -39,10 +39,10 @@ URL: https://github.com/FBartos/PublicationBiasBenchmark,
 BugReports: https://github.com/FBartos/PublicationBiasBenchmark/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2025-11-17 12:10:28 UTC; fbartos
+Packaged: 2025-11-26 12:03:02 UTC; fbartos
 Author: František Bartoš [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-0018-5573>),
   Samuel Pawel [aut] (ORCID: <https://orcid.org/0000-0003-2779-320X>),
   Björn S. Siepe [aut] (ORCID: <https://orcid.org/0000-0002-9558-4648>)
 Repository: CRAN
-Date/Publication: 2025-11-17 12:40:11 UTC
+Date/Publication: 2025-11-26 12:20:02 UTC
