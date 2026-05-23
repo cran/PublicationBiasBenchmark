@@ -1,6 +1,6 @@
-e864894e5169a706c7427fa49331c14b *DESCRIPTION
+fa1f8288ac79c0453e32e3f997eeaa39 *DESCRIPTION
 da9bd5201949095185a2616972c765d7 *NAMESPACE
-fbe96f543863b713f9292ae51b2a22f7 *NEWS.md
+cd3cd8f6067abab7bed35fc24e3ec1e6 *NEWS.md
 1f30e7b8d88c83fdbab6a74bd6cbe5d3 *R/dgm-Alinaghi2018.R
 3c9f6526eeb7193ba0a4d7613599c56e *R/dgm-Bom2019.R
 9337c341fa6e3d7146f5e5d25d282342 *R/dgm-Carter2019.R
@@ -19,7 +19,7 @@ ef3bc5ddbbb85475d0dcb0eeab3d7746 *R/method-AK.R
 69fcc1fb373924a8fd3d9bb11d482eb1 *R/method-PET.R
 1c1fb5d2985f35d37b479cf814e4cac4 *R/method-PETPEESE.R
 b434160913ecf648e0900f3672810dd0 *R/method-RMA.R
-3ef594321c688c1f28dbf70cf1a89a12 *R/method-RoBMA.R
+1b662683abfc65289d1b57ecc69ee0d7 *R/method-RoBMA.R
 56e0dc9452ca5a4673570b8a81b2d6e2 *R/method-SM.R
 75ff6b5dc14a5a060051906b99f2fc5c *R/method-WAAPWLS.R
 997826a0b1895ef7587870bfc7967624 *R/method-WILS.R
@@ -33,8 +33,8 @@ a8d9695d4bae459ba2e0622fcad763ac *R/tools.R
 2e9cc4b72096643bc51841d804eff242 *R/upload.R
 f0eb42f64670b4b123f69394ae3432e2 *R/utilities.R
 09ecaa18b5bafa68558121b7c0779f73 *README.md
-f8636edb3ddd0967d9e691bd79ad83a1 *build/partial.rdb
-a68d85ff1e5c7f7da0d66284f702453b *build/vignette.rds
+dd056f5e47eea1f8d844a45203702f46 *build/partial.rdb
+39d6f76c4375d2e22ebfe7a381fa510e *build/vignette.rds
 26ab94c40b594b93c00a2fcf7d23c8b2 *inst/CITATION
 3195797590eec17812f44a2f782f49b2 *inst/REFERENCES.bib
 bb4253fc50b5772dcbafae0756498e0b *inst/apa.csl
@@ -92,7 +92,7 @@ a0a12955c727935fb15c15d2d0256ee7 *man/measures.Rd
 1e46bf28e87b9d378ceceda3c0d383de *man/method.PETPEESE.Rd
 70f97ad64dae99be6608787e23f83cdc *man/method.RMA.Rd
 3637582f6b1096c87d2f3d985692208d *man/method.Rd
-3aa74dabca957292fe34eb86b39d62a7 *man/method.RoBMA.Rd
+f11b249b963915142f995a9e19624a7c *man/method.RoBMA.Rd
 c99889373fbc24ca80595dc44386d02d *man/method.SM.Rd
 a5ec6ce16680bc8dffffc4b625b6aa5a *man/method.WAAPWLS.Rd
 066d1c92b562dd469bb338b45233aaa3 *man/method.WILS.Rd

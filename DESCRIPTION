@@ -1,7 +1,7 @@
 Package: PublicationBiasBenchmark
 Type: Package
 Title: Benchmark for Publication Bias Correction Methods
-Version: 0.2.0
+Version: 0.2.1
 Maintainer: František Bartoš <f.bartos96@gmail.com>
 Authors@R: c(
     person(given = "František",
@@ -34,19 +34,20 @@ RoxygenNote: 7.3.3
 Depends: R (>= 3.5.0)
 Imports: stats, metafor, osfr, MASS, numDeriv, pwr, sandwich,
         clubSandwich, lmtest, puniform, Rdpack, MAIVE
-Suggests: RoBMA, testthat (>= 3.0.0), rmarkdown, knitr, kableExtra, DT,
-        ggplot2, scales, ggdist, rprojroot, desc
+Suggests: RoBMA (<= 3.6.1), BayesTools (<= 0.2.23), testthat (>=
+        3.0.0), rmarkdown, knitr, kableExtra, DT, ggplot2, scales,
+        ggdist, rprojroot, desc
 RdMacros: Rdpack
 URL: https://github.com/FBartos/PublicationBiasBenchmark,
         https://fbartos.github.io/PublicationBiasBenchmark/
 BugReports: https://github.com/FBartos/PublicationBiasBenchmark/issues
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2026-03-16 08:32:57 UTC; fbart
+Packaged: 2026-05-22 19:52:32 UTC; fbart
 Author: František Bartoš [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-0018-5573>),
   Samuel Pawel [aut] (ORCID: <https://orcid.org/0000-0003-2779-320X>),
   Björn S. Siepe [aut] (ORCID: <https://orcid.org/0000-0002-9558-4648>),
   Petr Čala [aut]
 Repository: CRAN
-Date/Publication: 2026-03-16 09:10:02 UTC
+Date/Publication: 2026-05-23 11:52:45 UTC
