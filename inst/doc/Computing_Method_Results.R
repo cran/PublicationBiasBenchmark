@@ -72,10 +72,14 @@ knitr::opts_chunk$set(
 #       ]
 # 
 #       # Apply your method (error handling is done internally)
+#       # `fit_limit` (in minutes) aborts a fit that runs too long and returns a
+#       # failure result instead, which keeps a single slow repetition from
+#       # stalling the whole run; drop it to let every fit run to completion
 #       result <- run_method(
 #         method_name = method_name,
 #         data        = repetition_data,
-#         settings    = method_setting
+#         settings    = method_setting,
+#         fit_limit   = 10
 #       )
 # 
 #       # Attach metadata

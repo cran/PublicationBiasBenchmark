@@ -480,67 +480,71 @@ scheduler on a cluster.</p>
 <span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a>      ]</span>
 <span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a>      </span>
 <span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a>      <span class="co"># Apply your method (error handling is done internally)</span></span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>      result <span class="ot">&lt;-</span> <span class="fu">run_method</span>(</span>
-<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>        <span class="at">method_name =</span> method_name,</span>
-<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a>        <span class="at">data        =</span> repetition_data,</span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a>        <span class="at">settings    =</span> method_setting</span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a>      )</span>
-<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a>      </span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a>      <span class="co"># Attach metadata</span></span>
-<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a>      result<span class="sc">$</span>condition_id  <span class="ot">&lt;-</span> condition_id</span>
-<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a>      result<span class="sc">$</span>repetition_id <span class="ot">&lt;-</span> repetition_id</span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>      <span class="co"># `fit_limit` (in minutes) aborts a fit that runs too long and returns a</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>      <span class="co"># failure result instead, which keeps a single slow repetition from</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a>      <span class="co"># stalling the whole run; drop it to let every fit run to completion</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a>      result <span class="ot">&lt;-</span> <span class="fu">run_method</span>(</span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a>        <span class="at">method_name =</span> method_name,</span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a>        <span class="at">data        =</span> repetition_data,</span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a>        <span class="at">settings    =</span> method_setting,</span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a>        <span class="at">fit_limit   =</span> <span class="dv">10</span></span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a>      )</span>
 <span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a>      </span>
-<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a>      condition_results[[repetition_id]] <span class="ot">&lt;-</span> result</span>
-<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a>    }</span>
-<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a>    </span>
-<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a>    <span class="co"># Combine results for this condition</span></span>
-<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a>    all_results[[condition_id]] <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, condition_results)</span>
-<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a>  }</span>
-<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a>  </span>
-<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a>  <span class="co"># Combine all results for this DGM</span></span>
-<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a>  dgm_results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, all_results)</span>
-<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a>  </span>
-<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a>  <span class="co"># Save results</span></span>
-<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a>  results_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(data_folder, dgm_name, <span class="st">&quot;results&quot;</span>)</span>
-<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(results_dir)) {</span>
-<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a>    <span class="fu">dir.create</span>(results_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a>  }</span>
-<span id="cb5-67"><a href="#cb5-67" tabindex="-1"></a>  </span>
-<span id="cb5-68"><a href="#cb5-68" tabindex="-1"></a>  results_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
-<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a>    results_dir, </span>
-<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a>    <span class="fu">paste0</span>(method_name, <span class="st">&quot;-&quot;</span>, method_setting, <span class="st">&quot;.csv&quot;</span>)</span>
-<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a>  )</span>
-<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a>  </span>
-<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a>  <span class="fu">write.csv</span>(dgm_results, <span class="at">file =</span> results_file, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Results saved to: &quot;</span>, results_file)</span>
-<span id="cb5-75"><a href="#cb5-75" tabindex="-1"></a>  </span>
-<span id="cb5-76"><a href="#cb5-76" tabindex="-1"></a>  <span class="co"># Save session information</span></span>
-<span id="cb5-77"><a href="#cb5-77" tabindex="-1"></a>  metadata_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(data_folder, dgm_name, <span class="st">&quot;metadata&quot;</span>)</span>
-<span id="cb5-78"><a href="#cb5-78" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(metadata_dir)) {</span>
-<span id="cb5-79"><a href="#cb5-79" tabindex="-1"></a>    <span class="fu">dir.create</span>(metadata_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-80"><a href="#cb5-80" tabindex="-1"></a>  }</span>
-<span id="cb5-81"><a href="#cb5-81" tabindex="-1"></a>  </span>
-<span id="cb5-82"><a href="#cb5-82" tabindex="-1"></a>  <span class="co"># sessionInfo() output</span></span>
-<span id="cb5-83"><a href="#cb5-83" tabindex="-1"></a>  sessioninfo_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
-<span id="cb5-84"><a href="#cb5-84" tabindex="-1"></a>    metadata_dir,</span>
-<span id="cb5-85"><a href="#cb5-85" tabindex="-1"></a>    <span class="fu">paste0</span>(method_name, <span class="st">&quot;-&quot;</span>, method_setting, <span class="st">&quot;-sessionInfo.txt&quot;</span>)</span>
-<span id="cb5-86"><a href="#cb5-86" tabindex="-1"></a>  )</span>
-<span id="cb5-87"><a href="#cb5-87" tabindex="-1"></a>  <span class="fu">writeLines</span>(</span>
-<span id="cb5-88"><a href="#cb5-88" tabindex="-1"></a>    <span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), </span>
-<span id="cb5-89"><a href="#cb5-89" tabindex="-1"></a>    sessioninfo_file</span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a>      <span class="co"># Attach metadata</span></span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a>      result<span class="sc">$</span>condition_id  <span class="ot">&lt;-</span> condition_id</span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a>      result<span class="sc">$</span>repetition_id <span class="ot">&lt;-</span> repetition_id</span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a>      </span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a>      condition_results[[repetition_id]] <span class="ot">&lt;-</span> result</span>
+<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a>    }</span>
+<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a>    </span>
+<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a>    <span class="co"># Combine results for this condition</span></span>
+<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a>    all_results[[condition_id]] <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, condition_results)</span>
+<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a>  }</span>
+<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a>  </span>
+<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a>  <span class="co"># Combine all results for this DGM</span></span>
+<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a>  dgm_results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, all_results)</span>
+<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a>  </span>
+<span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a>  <span class="co"># Save results</span></span>
+<span id="cb5-67"><a href="#cb5-67" tabindex="-1"></a>  results_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(data_folder, dgm_name, <span class="st">&quot;results&quot;</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(results_dir)) {</span>
+<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a>    <span class="fu">dir.create</span>(results_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a>  }</span>
+<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a>  </span>
+<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a>  results_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a>    results_dir, </span>
+<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a>    <span class="fu">paste0</span>(method_name, <span class="st">&quot;-&quot;</span>, method_setting, <span class="st">&quot;.csv&quot;</span>)</span>
+<span id="cb5-75"><a href="#cb5-75" tabindex="-1"></a>  )</span>
+<span id="cb5-76"><a href="#cb5-76" tabindex="-1"></a>  </span>
+<span id="cb5-77"><a href="#cb5-77" tabindex="-1"></a>  <span class="fu">write.csv</span>(dgm_results, <span class="at">file =</span> results_file, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-78"><a href="#cb5-78" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Results saved to: &quot;</span>, results_file)</span>
+<span id="cb5-79"><a href="#cb5-79" tabindex="-1"></a>  </span>
+<span id="cb5-80"><a href="#cb5-80" tabindex="-1"></a>  <span class="co"># Save session information</span></span>
+<span id="cb5-81"><a href="#cb5-81" tabindex="-1"></a>  metadata_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(data_folder, dgm_name, <span class="st">&quot;metadata&quot;</span>)</span>
+<span id="cb5-82"><a href="#cb5-82" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(metadata_dir)) {</span>
+<span id="cb5-83"><a href="#cb5-83" tabindex="-1"></a>    <span class="fu">dir.create</span>(metadata_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-84"><a href="#cb5-84" tabindex="-1"></a>  }</span>
+<span id="cb5-85"><a href="#cb5-85" tabindex="-1"></a>  </span>
+<span id="cb5-86"><a href="#cb5-86" tabindex="-1"></a>  <span class="co"># sessionInfo() output</span></span>
+<span id="cb5-87"><a href="#cb5-87" tabindex="-1"></a>  sessioninfo_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb5-88"><a href="#cb5-88" tabindex="-1"></a>    metadata_dir,</span>
+<span id="cb5-89"><a href="#cb5-89" tabindex="-1"></a>    <span class="fu">paste0</span>(method_name, <span class="st">&quot;-&quot;</span>, method_setting, <span class="st">&quot;-sessionInfo.txt&quot;</span>)</span>
 <span id="cb5-90"><a href="#cb5-90" tabindex="-1"></a>  )</span>
-<span id="cb5-91"><a href="#cb5-91" tabindex="-1"></a>  </span>
-<span id="cb5-92"><a href="#cb5-92" tabindex="-1"></a>  <span class="co"># Detailed session info (using the sessioninfo package)</span></span>
-<span id="cb5-93"><a href="#cb5-93" tabindex="-1"></a>    session_log_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
-<span id="cb5-94"><a href="#cb5-94" tabindex="-1"></a>      metadata_dir,</span>
-<span id="cb5-95"><a href="#cb5-95" tabindex="-1"></a>      <span class="fu">paste0</span>(method_name, <span class="st">&quot;-&quot;</span>, method_setting, <span class="st">&quot;-session.log&quot;</span>)</span>
-<span id="cb5-96"><a href="#cb5-96" tabindex="-1"></a>    )</span>
-<span id="cb5-97"><a href="#cb5-97" tabindex="-1"></a>    sessioninfo<span class="sc">::</span><span class="fu">session_info</span>(<span class="at">to_file =</span> session_log_file)</span>
-<span id="cb5-98"><a href="#cb5-98" tabindex="-1"></a>  </span>
-<span id="cb5-99"><a href="#cb5-99" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Session info saved to: &quot;</span>, metadata_dir)</span>
-<span id="cb5-100"><a href="#cb5-100" tabindex="-1"></a>}</span>
-<span id="cb5-101"><a href="#cb5-101" tabindex="-1"></a></span>
-<span id="cb5-102"><a href="#cb5-102" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;All computations completed!&quot;</span>)</span></code></pre></div>
+<span id="cb5-91"><a href="#cb5-91" tabindex="-1"></a>  <span class="fu">writeLines</span>(</span>
+<span id="cb5-92"><a href="#cb5-92" tabindex="-1"></a>    <span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), </span>
+<span id="cb5-93"><a href="#cb5-93" tabindex="-1"></a>    sessioninfo_file</span>
+<span id="cb5-94"><a href="#cb5-94" tabindex="-1"></a>  )</span>
+<span id="cb5-95"><a href="#cb5-95" tabindex="-1"></a>  </span>
+<span id="cb5-96"><a href="#cb5-96" tabindex="-1"></a>  <span class="co"># Detailed session info (using the sessioninfo package)</span></span>
+<span id="cb5-97"><a href="#cb5-97" tabindex="-1"></a>    session_log_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb5-98"><a href="#cb5-98" tabindex="-1"></a>      metadata_dir,</span>
+<span id="cb5-99"><a href="#cb5-99" tabindex="-1"></a>      <span class="fu">paste0</span>(method_name, <span class="st">&quot;-&quot;</span>, method_setting, <span class="st">&quot;-session.log&quot;</span>)</span>
+<span id="cb5-100"><a href="#cb5-100" tabindex="-1"></a>    )</span>
+<span id="cb5-101"><a href="#cb5-101" tabindex="-1"></a>    sessioninfo<span class="sc">::</span><span class="fu">session_info</span>(<span class="at">to_file =</span> session_log_file)</span>
+<span id="cb5-102"><a href="#cb5-102" tabindex="-1"></a>  </span>
+<span id="cb5-103"><a href="#cb5-103" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Session info saved to: &quot;</span>, metadata_dir)</span>
+<span id="cb5-104"><a href="#cb5-104" tabindex="-1"></a>}</span>
+<span id="cb5-105"><a href="#cb5-105" tabindex="-1"></a></span>
+<span id="cb5-106"><a href="#cb5-106" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;All computations completed!&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="contributing-to-the-package" class="section level2">

@@ -545,7 +545,10 @@ mechanism</li>
 <li><strong>method_setting</strong>: Vector of method settings (must
 match length of <code>method</code>)</li>
 <li><strong>power_test_type</strong>: How significance is determined
-(<code>&quot;p_value&quot;</code> or <code>&quot;bayes_factor&quot;</code>)</li>
+(<code>&quot;p_value&quot;</code>, <code>&quot;bayes_factor&quot;</code>, or
+<code>&quot;ci&quot;</code> for methods reporting only confidence intervals, i.e.,
+the null hypothesis is rejected if the confidence interval excludes
+zero)</li>
 </ul>
 </div>
 <div id="measure-selection" class="section level3">
