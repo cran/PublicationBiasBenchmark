@@ -8,7 +8,8 @@ knitr::opts_chunk$set(
 # library(PublicationBiasBenchmark)
 # 
 # # Specify path to the directory containing results
-# PublicationBiasBenchmark.options(resources_directory = "/path/to/files")
+# data_folder <- "/path/to/files"
+# PublicationBiasBenchmark.options(resources_directory = data_folder)
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # List of DGMs to evaluate
@@ -79,7 +80,7 @@ knitr::opts_chunk$set(
 #         method_name = method_name,
 #         data        = repetition_data,
 #         settings    = method_setting,
-#         fit_limit   = 10
+#         fit_limit   = 60
 #       )
 # 
 #       # Attach metadata

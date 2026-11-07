@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 # for (dgm_name in dgm_names) {
 # 
 #   # Download precomputed results for existing methods (for replacements)
-#   download_dgm_results(dgm_name)
+#   download_dgm_results(dgm_name, method = c("RMA", "FMA"))
 # 
 #   ### Simple performance metrics ----
 #   # Compute primary measures (not dependent on CI or power)
@@ -104,7 +104,8 @@ knitr::opts_chunk$set(
 #     bf_col          = "BF",
 #     convergence_col = "convergence",
 #     n_repetitions   = 1000,
-#     overwrite       = FALSE
+#     overwrite       = FALSE,
+#     replacement_source = "release"
 #   )
 # 
 #   # If your method does not return CI or hypothesis test, skip these measures
@@ -125,7 +126,8 @@ knitr::opts_chunk$set(
 #     bf_col          = "BF",
 #     convergence_col = "convergence",
 #     n_repetitions   = 1000,
-#     overwrite       = FALSE
+#     overwrite       = FALSE,
+#     replacement_source = "release"
 #   )
 # 
 # }

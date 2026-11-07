@@ -404,17 +404,20 @@ publication bias severity).</p>
 <div id="downloading-precomputed-results" class="section level2">
 <h2>Downloading Precomputed Results</h2>
 <p>Before accessing the precomputed results, you need to download them
-from the package repository. The <a href="../reference/download_dgm.html"><code>download_dgm()</code></a>
+from the package repository. The <a href="../reference/download_dgm.html"><code>download_dgm_results()</code></a>
 function downloads the raw results for a specified DGM:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Download precomputed results for the Stanley2017 DGM</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">download_dgm_results</span>(<span class="st">&quot;Stanley2017&quot;</span>)</span></code></pre></div>
 <p><strong>Note</strong>: Raw results files are significantly larger
 than the summarized measures files. Each DGM may require several hundred
-megabytes of storage space. The results are downloaded to a local cache
-directory and are automatically available for subsequent analysis. You
-only need to download them once, unless the benchmark was updated with
-new method. The download function will display progress information and
-the total size of files being downloaded.</p>
+megabytes of storage space. To download only some methods, use the
+<code>method</code> argument (e.g., <code>method = &quot;RMA&quot;</code>). The
+results are downloaded to a local cache directory and are automatically
+available for subsequent analysis. You only need to download them once.
+See <a href="Benchmark_Releases.html">Benchmark Releases</a> for how to
+use a specific version of the benchmark data. The download function will
+display progress information and the total size of files being
+downloaded.</p>
 </div>
 <div id="retrieving-precomputed-results" class="section level2">
 <h2>Retrieving Precomputed Results</h2>

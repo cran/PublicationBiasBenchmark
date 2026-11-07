@@ -433,7 +433,7 @@ measures:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">for</span> (dgm_name <span class="cf">in</span> dgm_names) {</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  </span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="co"># Download precomputed results for existing methods (for replacements)</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">download_dgm_results</span>(dgm_name)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">download_dgm_results</span>(dgm_name, <span class="at">method =</span> <span class="fu">c</span>(<span class="st">&quot;RMA&quot;</span>, <span class="st">&quot;FMA&quot;</span>))</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  </span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="do">### Simple performance metrics ----</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="co"># Compute primary measures (not dependent on CI or power)</span></span>
@@ -507,31 +507,33 @@ measures:</p>
 <span id="cb3-75"><a href="#cb3-75" tabindex="-1"></a>    <span class="at">bf_col          =</span> <span class="st">&quot;BF&quot;</span>,</span>
 <span id="cb3-76"><a href="#cb3-76" tabindex="-1"></a>    <span class="at">convergence_col =</span> <span class="st">&quot;convergence&quot;</span>,</span>
 <span id="cb3-77"><a href="#cb3-77" tabindex="-1"></a>    <span class="at">n_repetitions   =</span> <span class="dv">1000</span>,</span>
-<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a>    <span class="at">overwrite       =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a>  )</span>
-<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a>  </span>
-<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a>  <span class="co"># If your method does not return CI or hypothesis test, skip these measures</span></span>
-<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a>  <span class="fu">compute_measures</span>(</span>
-<span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a>    <span class="at">dgm_name            =</span> dgm_name,</span>
-<span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a>    <span class="at">method              =</span> methods_settings<span class="sc">$</span>method,</span>
-<span id="cb3-85"><a href="#cb3-85" tabindex="-1"></a>    <span class="at">method_setting      =</span> methods_settings<span class="sc">$</span>method_setting,</span>
-<span id="cb3-86"><a href="#cb3-86" tabindex="-1"></a>    <span class="at">power_test_type     =</span> methods_settings<span class="sc">$</span>power_test_type,</span>
-<span id="cb3-87"><a href="#cb3-87" tabindex="-1"></a>    <span class="at">method_replacements =</span> method_replacements,</span>
-<span id="cb3-88"><a href="#cb3-88" tabindex="-1"></a>    <span class="at">measures            =</span> <span class="fu">c</span>(<span class="st">&quot;power&quot;</span>, <span class="st">&quot;coverage&quot;</span>, <span class="st">&quot;mean_ci_width&quot;</span>, <span class="st">&quot;interval_score&quot;</span>, </span>
-<span id="cb3-89"><a href="#cb3-89" tabindex="-1"></a>                           <span class="st">&quot;negative_likelihood_ratio&quot;</span>, <span class="st">&quot;positive_likelihood_ratio&quot;</span>),</span>
-<span id="cb3-90"><a href="#cb3-90" tabindex="-1"></a>    <span class="at">verbose         =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-91"><a href="#cb3-91" tabindex="-1"></a>    <span class="at">estimate_col    =</span> <span class="st">&quot;estimate&quot;</span>,</span>
-<span id="cb3-92"><a href="#cb3-92" tabindex="-1"></a>    <span class="at">true_effect_col =</span> <span class="st">&quot;mean_effect&quot;</span>,</span>
-<span id="cb3-93"><a href="#cb3-93" tabindex="-1"></a>    <span class="at">ci_lower_col    =</span> <span class="st">&quot;ci_lower&quot;</span>,</span>
-<span id="cb3-94"><a href="#cb3-94" tabindex="-1"></a>    <span class="at">ci_upper_col    =</span> <span class="st">&quot;ci_upper&quot;</span>,</span>
-<span id="cb3-95"><a href="#cb3-95" tabindex="-1"></a>    <span class="at">p_value_col     =</span> <span class="st">&quot;p_value&quot;</span>,</span>
-<span id="cb3-96"><a href="#cb3-96" tabindex="-1"></a>    <span class="at">bf_col          =</span> <span class="st">&quot;BF&quot;</span>,</span>
-<span id="cb3-97"><a href="#cb3-97" tabindex="-1"></a>    <span class="at">convergence_col =</span> <span class="st">&quot;convergence&quot;</span>,</span>
-<span id="cb3-98"><a href="#cb3-98" tabindex="-1"></a>    <span class="at">n_repetitions   =</span> <span class="dv">1000</span>,</span>
-<span id="cb3-99"><a href="#cb3-99" tabindex="-1"></a>    <span class="at">overwrite       =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-100"><a href="#cb3-100" tabindex="-1"></a>  )</span>
-<span id="cb3-101"><a href="#cb3-101" tabindex="-1"></a>  </span>
-<span id="cb3-102"><a href="#cb3-102" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a>    <span class="at">overwrite       =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a>    <span class="at">replacement_source =</span> <span class="st">&quot;release&quot;</span></span>
+<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a>  )</span>
+<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a>  </span>
+<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a>  <span class="co"># If your method does not return CI or hypothesis test, skip these measures</span></span>
+<span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a>  <span class="fu">compute_measures</span>(</span>
+<span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a>    <span class="at">dgm_name            =</span> dgm_name,</span>
+<span id="cb3-85"><a href="#cb3-85" tabindex="-1"></a>    <span class="at">method              =</span> methods_settings<span class="sc">$</span>method,</span>
+<span id="cb3-86"><a href="#cb3-86" tabindex="-1"></a>    <span class="at">method_setting      =</span> methods_settings<span class="sc">$</span>method_setting,</span>
+<span id="cb3-87"><a href="#cb3-87" tabindex="-1"></a>    <span class="at">power_test_type     =</span> methods_settings<span class="sc">$</span>power_test_type,</span>
+<span id="cb3-88"><a href="#cb3-88" tabindex="-1"></a>    <span class="at">method_replacements =</span> method_replacements,</span>
+<span id="cb3-89"><a href="#cb3-89" tabindex="-1"></a>    <span class="at">measures            =</span> <span class="fu">c</span>(<span class="st">&quot;power&quot;</span>, <span class="st">&quot;coverage&quot;</span>, <span class="st">&quot;mean_ci_width&quot;</span>, <span class="st">&quot;interval_score&quot;</span>, </span>
+<span id="cb3-90"><a href="#cb3-90" tabindex="-1"></a>                           <span class="st">&quot;negative_likelihood_ratio&quot;</span>, <span class="st">&quot;positive_likelihood_ratio&quot;</span>),</span>
+<span id="cb3-91"><a href="#cb3-91" tabindex="-1"></a>    <span class="at">verbose         =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-92"><a href="#cb3-92" tabindex="-1"></a>    <span class="at">estimate_col    =</span> <span class="st">&quot;estimate&quot;</span>,</span>
+<span id="cb3-93"><a href="#cb3-93" tabindex="-1"></a>    <span class="at">true_effect_col =</span> <span class="st">&quot;mean_effect&quot;</span>,</span>
+<span id="cb3-94"><a href="#cb3-94" tabindex="-1"></a>    <span class="at">ci_lower_col    =</span> <span class="st">&quot;ci_lower&quot;</span>,</span>
+<span id="cb3-95"><a href="#cb3-95" tabindex="-1"></a>    <span class="at">ci_upper_col    =</span> <span class="st">&quot;ci_upper&quot;</span>,</span>
+<span id="cb3-96"><a href="#cb3-96" tabindex="-1"></a>    <span class="at">p_value_col     =</span> <span class="st">&quot;p_value&quot;</span>,</span>
+<span id="cb3-97"><a href="#cb3-97" tabindex="-1"></a>    <span class="at">bf_col          =</span> <span class="st">&quot;BF&quot;</span>,</span>
+<span id="cb3-98"><a href="#cb3-98" tabindex="-1"></a>    <span class="at">convergence_col =</span> <span class="st">&quot;convergence&quot;</span>,</span>
+<span id="cb3-99"><a href="#cb3-99" tabindex="-1"></a>    <span class="at">n_repetitions   =</span> <span class="dv">1000</span>,</span>
+<span id="cb3-100"><a href="#cb3-100" tabindex="-1"></a>    <span class="at">overwrite       =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-101"><a href="#cb3-101" tabindex="-1"></a>    <span class="at">replacement_source =</span> <span class="st">&quot;release&quot;</span></span>
+<span id="cb3-102"><a href="#cb3-102" tabindex="-1"></a>  )</span>
+<span id="cb3-103"><a href="#cb3-103" tabindex="-1"></a>  </span>
+<span id="cb3-104"><a href="#cb3-104" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 <div id="understanding-the-parameters" class="section level2">
@@ -581,6 +583,16 @@ indicator (default: <code>&quot;convergence&quot;</code>)</li>
 <div id="control-parameters" class="section level3">
 <h3>Control Parameters</h3>
 <ul>
+<li><strong>results_source</strong>: Where the results of your method
+are read from: <code>&quot;local&quot;</code> (default) for the results you
+computed, or <code>&quot;release&quot;</code> for the published benchmark
+results</li>
+<li><strong>replacement_source</strong>: Where the results of the
+replacement methods are read from (default: same as
+<code>results_source</code>); <code>&quot;release&quot;</code> uses the published
+results of the established methods</li>
+<li><strong>release</strong>: Benchmark release used for published
+results (default: the package’s default release)</li>
 <li><strong>n_repetitions</strong>: Expected number of repetitions per
 condition (default: 1000)</li>
 <li><strong>verbose</strong>: Whether to print progress messages
